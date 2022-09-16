@@ -57,7 +57,7 @@ ENTITY_PATH = DATA + 'entity_representation/'
 
 WORDNET_PATH = DATA + 'wordnet/'
 
-INPUT_W2V_DIM = 200
+INPUT_W2V_DIM = 16
 
 TRAINED_MODELS = DATA + 'trained_models/'
 
