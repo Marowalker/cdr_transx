@@ -31,11 +31,11 @@ class TransEModel:
 
     def _add_embeddings(self):
         # generate embeddings
-        self.entity_embeddings = tf.keras.layers.Embedding(self.ent_size, constants.INPUT_W2V_DIM,
+        self.entity_embeddings = tf.keras.layers.Embedding(self.ent_size + 1, constants.INPUT_W2V_DIM,
                                                            name='word_embeddings')
         # self.entity_embeddings = tf.nn.l2_normalize(self.entity_embeddings, axis=1)
 
-        self.relation_embeddings = tf.keras.layers.Embedding(self.rel_size, constants.INPUT_W2V_DIM,
+        self.relation_embeddings = tf.keras.layers.Embedding(self.rel_size + 1, constants.INPUT_W2V_DIM,
                                                              name='relation_embeddings')
         # self.relation_embeddings = tf.nn.l2_normalize(self.relation_embeddings, axis=1)
 
