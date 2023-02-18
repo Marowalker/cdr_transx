@@ -64,12 +64,13 @@ TRAINED_MODELS = DATA + 'trained_models/'
 SDP = DATA + 'sdp/'
 W2V_DATA = DATA + 'w2v_model/'
 
-ALL_WORDS = DATA + 'all_words.txt'
-ALL_POSES = DATA + 'all_poses.txt'
-ALL_SYNSETS = DATA + 'all_hypernyms.txt'
+ALL_WORDS = DATA + 'all_words_chemprot.txt'
+ALL_POSES = DATA + 'all_poses_chemnprot.txt'
+ALL_SYNSETS = DATA + 'all_hypernyms_chemprot.txt'
 # ALL_DEPENDS = DATA + 'all_relations.txt'
-ALL_DEPENDS = DATA + 'no_dir_depend.txt'
-ALL_EDGES = DATA + 'all_edges.txt'
+# ALL_DEPENDS = DATA + 'no_dir_depend.txt'
+ALL_DEPENDS = DATA + 'no_dir_depend_chemprot.txt'
+ALL_EDGES = DATA + 'all_edges_chemprot.txt'
 
 
 TRIMMED_W2V = W2V_DATA + 'biowordvec_nlplab.npz'

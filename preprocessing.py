@@ -4,8 +4,11 @@ import pickle
 from sklearn.utils import shuffle
 
 
-def create_triple(infile, ent_vocab, rel_vocab):
-    file = open(infile)
+def create_triple(infile, ent_vocab, rel_vocab, mode='cdr'):
+    if mode == 'chemprot':
+        file = open(infile, encoding='utf-8')
+    else:
+        file = open(infile)
     lines = file.readlines()
     lines = [line.strip() for line in lines]
     ents = list(ent_vocab.keys())
@@ -19,24 +22,25 @@ def create_triple(infile, ent_vocab, rel_vocab):
     for idx, line in enumerate(lines):
         if idx != 0:
             triple = line.split()
-            head, tail, rel = triple[0], triple[1], triple[2]
-            head_id = ent_vocab[head]
-            tail_id = ent_vocab[tail]
-            rel_id = rel_vocab[rel]
-            threshold = random.random()
-            if threshold < 0.5:
-                head_neg = random.choice(ents)
-                head_neg_id = ent_vocab[head_neg]
-                tail_neg_id = tail_id
-            else:
-                tail_neg = random.choice(ents)
-                tail_neg_id = ent_vocab[tail_neg]
-                head_neg_id = head_id
-            heads.append(head_id)
-            tails.append(tail_id)
-            rels.append(rel_id)
-            heads_neg.append(head_neg_id)
-            tails_neg.append(tail_neg_id)
+            if len(triple) == 3:
+                head, tail, rel = triple[0], triple[1], triple[2]
+                head_id = ent_vocab[head]
+                tail_id = ent_vocab[tail]
+                rel_id = rel_vocab[rel]
+                threshold = random.random()
+                if threshold < 0.5:
+                    head_neg = random.choice(ents)
+                    head_neg_id = ent_vocab[head_neg]
+                    tail_neg_id = tail_id
+                else:
+                    tail_neg = random.choice(ents)
+                    tail_neg_id = ent_vocab[tail_neg]
+                    head_neg_id = head_id
+                heads.append(head_id)
+                tails.append(tail_id)
+                rels.append(rel_id)
+                heads_neg.append(head_neg_id)
+                tails_neg.append(tail_neg_id)
 
     return heads, tails, rels, heads_neg, tails_neg
 
@@ -45,7 +49,7 @@ def get_sequences(ent_file, rel_file, triple_file, outfile_train, outfile_dev):
     ent_vocab = load_vocab(ent_file)
     rel_vocab = load_vocab(rel_file)
 
-    head, tail, rel, head_neg, tail_neg = create_triple(triple_file, ent_vocab, rel_vocab)
+    head, tail, rel, head_neg, tail_neg = create_triple(triple_file, ent_vocab, rel_vocab, mode='chemprot')
 
     head_shuffled, tail_shuffled, rel_shuffled, head_neg_shuffled, tail_neg_shuffled = shuffle(head, tail, rel,
                                                                                                head_neg, tail_neg)
