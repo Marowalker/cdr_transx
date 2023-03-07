@@ -31,8 +31,8 @@ def main_knowledge_base():
         transe = TransEModel(model_path=constants.TRAINED_MODELS, batch_size=64, epochs=constants.EPOCHS,
                              score=constants.SCORE)
         transe.build(train_dict, val_dict)
-        transe.train(early_stopping=True, patience=constants.PATIENCE)
-        all_emb = transe.load(load_file='data/embeddings/transe_chemprot_word_' + str(constants.INPUT_W2V_DIM) + '.pkl',
+        # transe.train(early_stopping=True, patience=constants.PATIENCE)
+        all_emb = transe.load(load_file='data/embeddings/transe_cdr_word_' + str(constants.INPUT_W2V_DIM) + '.pkl',
                               embed_type='word')
         print(all_emb)
         print(all_emb.shape)

@@ -31,11 +31,11 @@ class TransEModel:
 
     def _add_embeddings(self):
         # generate embeddings
-        self.entity_embeddings = tf.keras.layers.Embedding(self.ent_size + 2, constants.INPUT_W2V_DIM,
+        self.entity_embeddings = tf.keras.layers.Embedding(self.ent_size + 1, constants.INPUT_W2V_DIM,
                                                            name='word_embeddings')
         # self.entity_embeddings = tf.nn.l2_normalize(self.entity_embeddings, axis=1)
 
-        self.relation_embeddings = tf.keras.layers.Embedding(self.rel_size + 2, constants.INPUT_W2V_DIM,
+        self.relation_embeddings = tf.keras.layers.Embedding(self.rel_size + 1, constants.INPUT_W2V_DIM,
                                                              name='relation_embeddings')
         # self.relation_embeddings = tf.nn.l2_normalize(self.relation_embeddings, axis=1)
 
@@ -98,10 +98,12 @@ class TransEModel:
                     h, t, r, h_n, t_n = logits
                     score_pos = self.score_function(h, t, r)
                     score_neg = self.score_function(h_n, t_n, r)
-                    loss_value = tf.reduce_sum(input_tensor=tf.maximum(0.0, 1.0 + score_pos - score_neg))
+                    # loss_value = tf.reduce_sum(input_tensor=tf.maximum(0.0, 1.0 + score_pos - score_neg))
+                    loss_value = tf.reduce_sum(input_tensor=tf.math.add(tf.math.log(tf.math.exp(1.0 + score_pos)),
+                                                                        tf.math.log(tf.math.exp(1.0 - score_neg))))
                     grads = tape.gradient(loss_value, self.model.trainable_weights)
                 self.optimizer.apply_gradients(zip(grads, self.model.trainable_weights))
-                if idx % 2000 == 0:
+                if idx % 500 == 0:
                     Log.log("Iter {}, Loss: {} ".format(idx, loss_value))
 
             if early_stopping:
@@ -115,7 +117,9 @@ class TransEModel:
                     h, t, r, h_n, t_n = val_logits
                     score_pos = self.score_function(h, t, r)
                     score_neg = self.score_function(h_n, t_n, r)
-                    v_loss = tf.reduce_sum(input_tensor=tf.maximum(0.0, 1.0 + score_pos - score_neg))
+                    # v_loss = tf.reduce_sum(input_tensor=tf.maximum(0.0, 1.0 + score_pos - score_neg))
+                    v_loss = tf.reduce_sum(input_tensor=tf.math.add(tf.math.log(tf.math.exp(1.0 + score_pos)),
+                                                                    tf.math.log(tf.math.exp(1.0 - score_neg))))
                     total_loss.append(float(v_loss))
 
                 val_loss = np.mean(total_loss)

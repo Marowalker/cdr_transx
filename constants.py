@@ -3,7 +3,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Knowledge-based NLP model for re')
 parser.add_argument('-i', help='Job identity', type=int, default=0)
-parser.add_argument('-rb', help='Rebuild data', type=int, default=1)
+parser.add_argument('-rb', help='Rebuild data', type=int, default=0)
 parser.add_argument('-e', help='Number of epochs', type=int, default=80)
 parser.add_argument('-p', help='Patience of early stop (0 to ignore)', type=int, default=10)
 parser.add_argument('-len', help='Max sentence or document length', type=int, default=100)
@@ -64,13 +64,13 @@ TRAINED_MODELS = DATA + 'trained_models/'
 SDP = DATA + 'sdp/'
 W2V_DATA = DATA + 'w2v_model/'
 
-ALL_WORDS = DATA + 'all_words_chemprot.txt'
-ALL_POSES = DATA + 'all_poses_chemnprot.txt'
-ALL_SYNSETS = DATA + 'all_hypernyms_chemprot.txt'
+ALL_WORDS = DATA + 'all_words.txt'
+ALL_POSES = DATA + 'all_poses.txt'
+ALL_SYNSETS = DATA + 'all_hypernyms.txt'
 # ALL_DEPENDS = DATA + 'all_relations.txt'
 # ALL_DEPENDS = DATA + 'no_dir_depend.txt'
-ALL_DEPENDS = DATA + 'no_dir_depend_chemprot.txt'
-ALL_EDGES = DATA + 'all_edges_chemprot.txt'
+ALL_DEPENDS = DATA + 'no_dir_depend.txt'
+ALL_EDGES = DATA + 'all_edges.txt'
 
 
 TRIMMED_W2V = W2V_DATA + 'biowordvec_nlplab.npz'
